@@ -1,19 +1,16 @@
 import io from 'socket.io-client'
 
-let socket
+var socket
 
 export const connectSocket = ( username ) => {
     if ( !socket ) {
         socket = io( 'http://localhost:3000', { transports: [ 'websocket' ] } )
-        socket.on( 'connect', () => {
-            console.log( 'Connected' )
-        } )
         socket.emit( 'setUsername', username )
     }
 }
 
 export const isConnected = () => {
-    return socket.connected
+    socket.emit( 'isConnected' )
 }
 
 export const disconnectSocket = () => {

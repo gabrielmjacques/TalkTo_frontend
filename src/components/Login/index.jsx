@@ -17,7 +17,7 @@ export default function Login() {
         if ( !username ) return
 
         connectSocket( username )
-        dispatch( SET_USERNAME( username ) )
+        if ( isConnected() ) dispatch( SET_USERNAME( username ) )
     }
 
     return (

@@ -33,6 +33,11 @@ input {
 
 button {
   cursor: pointer;
+  font-weight: bold;
+}
+
+button * {
+  font-weight: bold;
 }
 
 button:hover {
