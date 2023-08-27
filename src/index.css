@@ -3,8 +3,10 @@
   --background: #141414;
   --background-enf1: #1c1c1c;
   --background-enf2: #1d1f21;
+  --background-enf3: #323438;
 
   --primary: #3f51b5;
+  --secondary: #33419067;
 }
 
 * {

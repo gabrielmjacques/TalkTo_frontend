@@ -1,0 +1,34 @@
+.messageContainer {
+    display: flex;
+    width: fit-content;
+
+    width: 100%;
+    gap: 10px;
+}
+
+.avatar > span {
+    box-shadow: 0 0 5px var(--primary);
+}
+
+.message {
+    word-wrap: break-word;
+
+    max-width: 70%;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.messageHeader {
+    color: #ffffff9a;
+    transition-duration: .5s;
+    transition-delay: .5s;
+}
+
+.messageContainer:has(.message:hover) .messageHeader {
+    color: #ffffffdf;
+}
+
+.message hr {
+    border-color: #ffffff9a;
+    margin-bottom: 5px;
+}

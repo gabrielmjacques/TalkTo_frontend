@@ -26,6 +26,14 @@
     padding: 7px 15px;
 }
 
+.chatMessages {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+    padding: 20px;
+}
+
 .inputMessage {
     background-color: var(--background-enf2);
     display: flex;
