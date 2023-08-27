@@ -9,9 +9,9 @@ function App() {
     <>
       <NavBar />
 
-      {/* <Login /> */ }
+      <Login />
 
-      <Chat />
+      {/* <Chat /> */ }
     </>
   )
 }
