@@ -1,9 +1,9 @@
-import './styles.css'
-import { Button, Card, Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
+import { Button, Card, Input, Space } from 'antd'
+import './styles.css'
 
-import { setSocketUser } from '../../services/socketService'
 import { useEffect, useState } from 'react'
+import { setSocketUser } from '../../services/socketService'
 
 import { socket } from '../../services/socketService'
 
@@ -18,7 +18,7 @@ export default function Login() {
     }
 
     useEffect( () => {
-
+        // Sockets events
 
         return () => {
             socket.disconnect()
@@ -27,7 +27,6 @@ export default function Login() {
 
     return (
         <div className='login'>
-
             <Card size="default">
                 <Space direction="vertical" size="middle">
 

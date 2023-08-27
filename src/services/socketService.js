@@ -1,18 +1,22 @@
+import { messageSuccess, messageError } from '../utils/antMessage'
+
 import io from 'socket.io-client'
 export const socket = io( 'http://localhost:3000', { autoConnect: false } )
 
 export const setSocketUser = ( username ) => {
-    if ( socket.connected ) return
+    if ( socket.connected ) { return }
+    socket.connect()
 
-    socket.emit( 'checkUsername', username, ( res ) => {
-        if ( res ) {
+    socket.emit( 'hasUsername', username, ( has ) => {
+        if ( !has ) {
             socket.emit( 'setUsername', username )
+            messageSuccess( 'Logged' )
         } else {
-            console.log( 'Username already in use' )
+            messageError( 'Name in Use' )
+            socket.disconnect()
         }
     } )
 
-    socket.connect()
 }
 
 export const disconnectSocket = () => {
