@@ -5,7 +5,7 @@ import { CaretDownFilled } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { LOGOUT } from '../../redux/userSlice'
-import { disconnectSocket, isConnected } from '../../services/socketService'
+import { disconnectSocket } from '../../services/socketService'
 
 export default function Login() {
 
@@ -28,7 +28,7 @@ export default function Login() {
     ]
 
     useEffect( () => {
-        if ( isConnected() ) {
+        if ( username ) {
             setLoginState(
                 <Dropdown menu={ { items } } placement="bottomRight" trigger={ [ 'click' ] } arrow>
                     <Button type='primary' style={ { backgroundColor: 'transparent' } }>{ username } <CaretDownFilled /></Button>
@@ -38,7 +38,7 @@ export default function Login() {
         } else {
             setLoginState( <small>Not Logged In</small> )
         }
-    }, [ isConnected() ] )
+    }, [ username ] )
 
     return (
         <nav>

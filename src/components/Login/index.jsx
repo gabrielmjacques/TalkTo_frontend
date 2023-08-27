@@ -2,7 +2,7 @@ import './styles.css'
 import { Button, Card, Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
-import { connectSocket, isConnected } from '../../services/socketService'
+import { connectSocket } from '../../services/socketService'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { SET_USERNAME } from '../../redux/userSlice'
@@ -17,7 +17,6 @@ export default function Login() {
         if ( !username ) return
 
         connectSocket( username )
-        if ( isConnected() ) dispatch( SET_USERNAME( username ) )
     }
 
     return (
