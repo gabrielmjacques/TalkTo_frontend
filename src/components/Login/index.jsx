@@ -2,22 +2,28 @@ import './styles.css'
 import { Button, Card, Input, Space } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 
-import { connectSocket } from '../../services/socketService'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { SET_USERNAME } from '../../redux/userSlice'
+import { setSocketUser } from '../../services/socketService'
+import { useEffect, useState } from 'react'
+
+import { socket } from '../../services/socketService'
 
 export default function Login() {
 
-    const dispatch = useDispatch()
-
     const [ username, setUsername ] = useState()
 
-    function handleLogin() {
-        if ( !username ) return
+    async function handleLogin() {
+        if ( !username.trim() ) return
 
-        connectSocket( username )
+        setSocketUser( username )
     }
+
+    useEffect( () => {
+
+
+        return () => {
+            socket.disconnect()
+        }
+    }, [] )
 
     return (
         <div className='login'>

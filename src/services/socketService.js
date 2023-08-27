@@ -1,12 +1,18 @@
 import io from 'socket.io-client'
+export const socket = io( 'http://localhost:3000', { autoConnect: false } )
 
-let socket
+export const setSocketUser = ( username ) => {
+    if ( socket.connected ) return
 
-export const connectSocket = ( username ) => {
-    if ( !socket ) {
-        socket = io( 'http://localhost:3000', { transports: [ 'websocket' ] } )
-        socket.emit( 'setUsername', username )
-    }
+    socket.emit( 'checkUsername', username, ( res ) => {
+        if ( res ) {
+            socket.emit( 'setUsername', username )
+        } else {
+            console.log( 'Username already in use' )
+        }
+    } )
+
+    socket.connect()
 }
 
 export const disconnectSocket = () => {
