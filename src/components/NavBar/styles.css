@@ -1,9 +1,10 @@
 nav {
-    background-color: #252525;
+    background-color: var(--background-enf1);
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     padding: 5px 45px;
+    height: 50px;
 }

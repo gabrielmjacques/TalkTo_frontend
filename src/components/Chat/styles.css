@@ -1,0 +1,73 @@
+.chatContainer {
+    margin: auto;
+
+    padding: 10px;
+    max-width: 1300px;
+}
+
+.chat {
+    background-color: var(--background-enf1);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+
+    width: 100%;
+    border-radius: 20px;
+
+    height: calc(100vh - 70px);
+}
+
+.chatHeader {
+    background-color: var(--background-enf2);
+    text-align: center;
+
+    padding: 7px 15px;
+}
+
+.inputMessage {
+    background-color: var(--background-enf2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 50px;
+}
+
+.inputMessage:has(input:focus) {
+    transition-duration: 1s;
+
+    box-shadow: 0 0 10px var(--primary);
+}
+
+.inputMessage:not(:has(input:focus)) {
+    transition-duration: 1s;
+
+    box-shadow: 0 0 5px #ffffff27;
+}
+
+.inputMessage * {
+    background-color: transparent;
+    color: white;
+
+    font-size: 1.1rem;
+}
+
+.inputMessage input {
+    width: 100%;
+    padding: 7px 10px;
+}
+
+.inputMessage input:focus {
+    background-color: var(--background-enf2);
+}
+
+.inputMessage button {
+    background-color: var(--primary);
+    min-width: 150px;
+}
+
+.inputMessage button:hover {
+    background-color: var(--primary-hover);
+}

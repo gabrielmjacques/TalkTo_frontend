@@ -1,4 +1,5 @@
 import './App.css'
+import Chat from './components/Chat'
 import Login from './components/Login'
 import NavBar from './components/NavBar'
 
@@ -8,7 +9,9 @@ function App() {
     <>
       <NavBar />
 
-      <Login />
+      {/* <Login /> */ }
+
+      <Chat />
     </>
   )
 }
