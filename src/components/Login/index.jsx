@@ -4,8 +4,12 @@ import { UserOutlined } from '@ant-design/icons'
 
 import { connectSocket, isConnected } from '../../services/socketService'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { SET_USERNAME } from '../../redux/userSlice'
 
 export default function Login() {
+
+    const dispatch = useDispatch()
 
     const [ username, setUsername ] = useState()
 
@@ -13,6 +17,7 @@ export default function Login() {
         if ( !username ) return
 
         connectSocket( username )
+        dispatch( SET_USERNAME( username ) )
     }
 
     return (
