@@ -35,7 +35,6 @@ export default function Chat() {
         socket.on( 'receiveMessage', ( receive ) => {
             const messageObj = receive.messageObj
             const messageId = `${ receive.userId }/${ messageObj.date }/${ messageObj.time }`
-            console.log( messageId )
 
             setMessages( ( prevMessages ) => [
                 ...prevMessages,

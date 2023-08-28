@@ -14,12 +14,11 @@
     word-wrap: break-word;
 
     max-width: 70%;
-    min-width: 200px;
     border-radius: 20px;
 }
 
 .messageHeader {
-    color: #ffffff8f;
+    color: var(--message-header);
     font-weight: bold;
     font-size: 0.9rem;
 

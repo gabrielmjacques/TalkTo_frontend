@@ -5,8 +5,10 @@
   --background-enf2: #1d1f21;
   --background-enf3: #323438;
 
-  --primary: #3f51b5;
-  --secondary: #33419067;
+  --primary: #5B9A8B;
+  --secondary: #445069;
+
+  --message-header: #F7E987;
 }
 
 * {

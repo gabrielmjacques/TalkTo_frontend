@@ -17,7 +17,7 @@ export default function Message( { sender, message } ) {
             className="messageContainer"
             style={ {
                 justifyContent: isMyMessage() ? 'end' : 'start',
-                flexDirection: isMyMessage() ? 'row' : 'row-reverse',
+                flexDirection: isMyMessage() ? 'row-reverse' : 'row',
             } }
         >
             <div className="avatar">
@@ -28,10 +28,11 @@ export default function Message( { sender, message } ) {
                 className="message"
                 style={ { backgroundColor: isMyMessage() ? 'var(--primary)' : 'var(--secondary)' } }
             >
-                <div className="messageHeader">
-                    <p
-                        style={ { textAlign: isMyMessage() ? 'left' : 'right' } }
-                    >{ isMyMessage() ? 'Me' : sender }</p>
+                <div
+                    style={ { display: isMyMessage() ? 'none' : 'block' } }
+                    className="messageHeader"
+                >
+                    <p>{ isMyMessage() ? 'Me' : sender }</p>
                 </div>
 
                 <div className="messageBody">
