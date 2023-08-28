@@ -9,17 +9,21 @@ export const connectSocker = async ( username ) => {
     socket.connect()
 
     socket.emit( 'hasUsername', username, ( has ) => {
-        if ( !has ) {
-            socket.emit( 'setUsername', username )
-            messageSuccess( 'Logged' )
-
-        } else {
+        if ( has ) {
             messageError( 'Name in Use' )
             socket.disconnect()
+
+        } else {
+            socket.emit( 'setUsername', username )
+            messageSuccess( 'Logged' )
         }
     } )
 
     return socket
+}
+
+export const getStatus = () => {
+    return socket.connected
 }
 
 export const disconnectSocket = () => {

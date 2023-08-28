@@ -3,7 +3,7 @@ import { Button, Card, Input, Space } from 'antd'
 import './styles.css'
 
 import { useState } from 'react'
-import { connectSocker } from '../../services/socketService'
+import { connectSocker, getStatus } from '../../services/socketService'
 
 import { messageWarning } from '../../utils/antMessage'
 import { useDispatch } from 'react-redux'
@@ -14,6 +14,28 @@ export default function Login() {
 
     const [ loading, setLoading ] = useState( false )
     const [ username, setUsername ] = useState( '' )
+
+    function dispatchUsername() {
+        let trys = 0
+
+        function tryConnect() {
+            if ( trys < 5 ) {
+                if ( getStatus() ) {
+                    dispatch( SET_USERNAME( username ) )
+
+                } else {
+                    trys++
+                    setTimeout( tryConnect, trys * 500 );
+                }
+
+            } else {
+                messageWarning( 'Error to connect' )
+                setLoading( false )
+            }
+        }
+
+        tryConnect()
+    }
 
     async function handleLogin( e ) {
         e.preventDefault()
@@ -29,15 +51,8 @@ export default function Login() {
             return
         }
 
-        const socketConnection = await connectSocker( username )
-
-        setTimeout( () => {
-            if ( socketConnection.connected ) {
-                dispatch( SET_USERNAME( username ) )
-            }
-
-            setLoading( false )
-        }, 500 );
+        connectSocker( username )
+        dispatchUsername()
     }
 
     return (
