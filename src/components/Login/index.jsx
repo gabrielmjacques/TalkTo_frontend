@@ -2,31 +2,46 @@ import { UserOutlined } from '@ant-design/icons'
 import { Button, Card, Input, Space } from 'antd'
 import './styles.css'
 
-import { useEffect, useState } from 'react'
-import { setSocketUser } from '../../services/socketService'
+import { useState } from 'react'
+import { connectSocker } from '../../services/socketService'
 
-import { socket } from '../../services/socketService'
+import { messageWarning } from '../../utils/antMessage'
+import { useDispatch } from 'react-redux'
+import { SET_USERNAME } from '../../redux/userSlice'
 
 export default function Login() {
+    const dispatch = useDispatch()
 
-    const [ username, setUsername ] = useState()
+    const [ loading, setLoading ] = useState( false )
+    const [ username, setUsername ] = useState( '' )
 
-    async function handleLogin() {
-        if ( !username.trim() ) return
+    async function handleLogin( e ) {
+        e.preventDefault()
 
-        setSocketUser( username )
+        const usernameRegex = /^(?![0-9]{5,20}$)[0-9a-zA-Z]{5,20}$/
+
+        setLoading( true )
+        const isValidUsername = usernameRegex.test( username );
+
+        if ( !isValidUsername ) {
+            messageWarning( 'Invalid Username' )
+            setLoading( false )
+            return
+        }
+
+        const socketConnection = await connectSocker( username )
+
+        setTimeout( () => {
+            if ( socketConnection.connected ) {
+                dispatch( SET_USERNAME( username ) )
+            }
+
+            setLoading( false )
+        }, 500 );
     }
 
-    useEffect( () => {
-        // Sockets events
-
-        return () => {
-            socket.disconnect()
-        }
-    }, [] )
-
     return (
-        <div className='login'>
+        <form className='login' onSubmit={ e => handleLogin( e ) }>
             <Card size="default">
                 <Space direction="vertical" size="middle">
 
@@ -43,11 +58,11 @@ export default function Login() {
 
                     <hr />
 
-                    <Button onClick={ () => handleLogin() } type="primary" block>Enter</Button>
+                    <Button type="primary" htmlType='submit' block loading={ loading }>Enter</Button>
 
                 </Space>
             </Card>
 
-        </div>
+        </form>
     )
 }
