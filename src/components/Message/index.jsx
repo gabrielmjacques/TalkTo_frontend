@@ -1,15 +1,15 @@
 import './styles.css'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar } from 'antd'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../redux/userSlice'
 
-const messageProps = {
-    message: '',
-    sender: '',
-}
+export default function Message( { sender, message } ) {
 
-export default function Message( messageProps ) {
+    const user = useSelector( selectUser )
+
     function isMyMessage() {
-        return messageProps.sender === 'John Doe'
+        return sender === user.username
     }
 
     return (
@@ -29,13 +29,13 @@ export default function Message( messageProps ) {
                 style={ { backgroundColor: isMyMessage() ? 'var(--primary)' : 'var(--secondary)' } }
             >
                 <div className="messageHeader">
-                    <h3>{ messageProps.sender }</h3>
+                    <h3>{ sender }</h3>
                 </div>
 
                 <hr />
 
                 <div className="messageBody">
-                    <p>{ messageProps.message }</p>
+                    <p>{ message }</p>
                 </div>
             </div>
         </div >

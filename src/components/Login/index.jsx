@@ -53,8 +53,6 @@ export default function Login() {
 
         const connect = await connectSocker( username )
 
-        console.log( connect.error )
-
         if ( !connect.error ) {
             dispatchUsername()
         } else {

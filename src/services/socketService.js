@@ -26,6 +26,10 @@ export const connectSocker = async ( username ) => {
     return response
 }
 
+export const sendMessage = ( messageObj ) => {
+    socket.emit( 'sendMessage', messageObj )
+}
+
 export const getStatus = () => {
     return socket.connected
 }

@@ -1,8 +1,46 @@
-import { Button, Input, Space } from 'antd'
-import './styles.css'
+import { Button, message } from 'antd'
+import { useEffect, useState } from 'react'
 import Message from '../Message'
+import './styles.css'
+import { sendMessage } from '../../services/socketService'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../redux/userSlice'
+import { socket } from '../../services/socketService'
 
 export default function Chat() {
+
+    const user = useSelector( selectUser )
+
+    const [ messageToSend, setMessageToSend ] = useState( '' )
+    const [ messages, setMessages ] = useState( [] )
+
+    function handleSendMessage( e ) {
+        e.preventDefault()
+
+
+        const messageObject = {
+            username: user.username,
+            message: messageToSend
+        }
+
+        sendMessage( messageObject )
+
+        setMessageToSend( '' )
+    }
+
+    useEffect( () => {
+        socket.on( 'receiveMessage', ( messageObj ) => {
+            setMessages( ( prevMessages ) => [
+                ...prevMessages,
+                <Message key={ messageObj.message } sender={ messageObj.username } message={ messageObj.message } />
+            ] )
+        } );
+
+        return () => {
+            socket.off( 'receiveMessage' );
+        };
+    }, [] );
+
     return (
         <div className="chatContainer">
             <div className="chat">
@@ -12,11 +50,25 @@ export default function Chat() {
                 </div>
 
                 <div className="chatBody">
-                    <div className="chatMessages"></div>
+                    <div className="chatMessages">
+                        { messages }
+                    </div>
 
-                    <form className="inputMessage">
-                        <input type="text" placeholder='Write a Nice Message Here!' />
-                        <Button type="primary" style={ { backgroundColor: 'var(--primary', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }>Send</Button>
+                    <form className="inputMessage" onSubmit={ e => handleSendMessage( e ) }>
+                        <input
+                            onChange={ e => setMessageToSend( e.target.value ) }
+                            value={ messageToSend }
+                            type="text"
+                            placeholder='Write a Nice Message Here!'
+                        />
+
+                        <Button
+                            type="primary"
+                            htmlType='submit'
+                            style={ { backgroundColor: 'var(--primary', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }
+
+                        >Send
+                        </Button>
                     </form>
                 </div>
 
