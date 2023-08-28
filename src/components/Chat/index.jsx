@@ -17,10 +17,13 @@ export default function Chat() {
     function handleSendMessage( e ) {
         e.preventDefault()
 
+        const date = new Date()
 
         const messageObject = {
             username: user.username,
-            message: messageToSend
+            message: messageToSend,
+            date: date.toLocaleDateString(),
+            time: date.toLocaleTimeString()
         }
 
         sendMessage( messageObject )
@@ -29,10 +32,14 @@ export default function Chat() {
     }
 
     useEffect( () => {
-        socket.on( 'receiveMessage', ( messageObj ) => {
+        socket.on( 'receiveMessage', ( receive ) => {
+            const messageObj = receive.messageObj
+            const messageId = `${ receive.userId }/${ messageObj.date }/${ messageObj.time }`
+            console.log( messageId )
+
             setMessages( ( prevMessages ) => [
                 ...prevMessages,
-                <Message key={ messageObj.message } sender={ messageObj.username } message={ messageObj.message } />
+                <Message key={ messageId } sender={ messageObj.username } message={ messageObj.message } />
             ] )
         } );
 

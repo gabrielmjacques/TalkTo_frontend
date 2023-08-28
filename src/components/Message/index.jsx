@@ -16,7 +16,7 @@ export default function Message( { sender, message } ) {
         <div
             className="messageContainer"
             style={ {
-                justifyContent: isMyMessage() ? 'start' : 'end',
+                justifyContent: isMyMessage() ? 'end' : 'start',
                 flexDirection: isMyMessage() ? 'row' : 'row-reverse',
             } }
         >
@@ -29,10 +29,10 @@ export default function Message( { sender, message } ) {
                 style={ { backgroundColor: isMyMessage() ? 'var(--primary)' : 'var(--secondary)' } }
             >
                 <div className="messageHeader">
-                    <h3>{ sender }</h3>
+                    <p
+                        style={ { textAlign: isMyMessage() ? 'left' : 'right' } }
+                    >{ isMyMessage() ? 'Me' : sender }</p>
                 </div>
-
-                <hr />
 
                 <div className="messageBody">
                     <p>{ message }</p>

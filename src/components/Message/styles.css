@@ -14,21 +14,22 @@
     word-wrap: break-word;
 
     max-width: 70%;
-    padding: 5px 15px;
+    min-width: 200px;
     border-radius: 20px;
 }
 
 .messageHeader {
-    color: #ffffff9a;
+    color: #ffffff8f;
+    font-weight: bold;
+    font-size: 0.9rem;
+
+    padding: 7px 15px;
+
+    border-bottom: 1px solid #ffffff6f;
+}
+
+.messageBody {
+    padding: 15px;
     transition-duration: .5s;
     transition-delay: .5s;
-}
-
-.messageContainer:has(.message:hover) .messageHeader {
-    color: #ffffffdf;
-}
-
-.message hr {
-    border-color: #ffffff9a;
-    margin-bottom: 5px;
 }
