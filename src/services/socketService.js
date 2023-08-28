@@ -8,18 +8,22 @@ export const connectSocker = async ( username ) => {
 
     socket.connect()
 
-    socket.emit( 'hasUsername', username, ( has ) => {
-        if ( has ) {
-            messageError( 'Name in Use' )
-            socket.disconnect()
+    const response = new Promise( ( resolve, reject ) => {
+        socket.emit( 'hasUsername', username, ( has ) => {
+            if ( has ) {
+                socket.disconnect()
+                messageError( 'Username already in use' )
+                resolve( { error: true } )
 
-        } else {
-            socket.emit( 'setUsername', username )
-            messageSuccess( 'Logged' )
-        }
+            } else {
+                socket.emit( 'setUsername', username )
+                messageSuccess( 'Connected' )
+                resolve( { error: false } )
+            }
+        } )
     } )
 
-    return socket
+    return response
 }
 
 export const getStatus = () => {

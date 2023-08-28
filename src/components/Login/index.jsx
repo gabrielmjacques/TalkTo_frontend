@@ -18,23 +18,23 @@ export default function Login() {
     function dispatchUsername() {
         let trys = 0
 
-        function tryConnect() {
+        function verifySocket() {
             if ( trys < 5 ) {
                 if ( getStatus() ) {
                     dispatch( SET_USERNAME( username ) )
 
                 } else {
                     trys++
-                    setTimeout( tryConnect, trys * 500 );
+                    setTimeout( verifySocket, trys * 500 );
                 }
 
             } else {
                 messageWarning( 'Error to connect' )
-                setLoading( false )
             }
         }
 
-        tryConnect()
+        verifySocket()
+        setLoading( false )
     }
 
     async function handleLogin( e ) {
@@ -51,8 +51,17 @@ export default function Login() {
             return
         }
 
-        connectSocker( username )
-        dispatchUsername()
+        const connect = await connectSocker( username )
+
+        console.log( connect.error )
+
+        if ( !connect.error ) {
+            dispatchUsername()
+        } else {
+            setTimeout( () => {
+                setLoading( false )
+            }, 1000 );
+        }
     }
 
     return (
