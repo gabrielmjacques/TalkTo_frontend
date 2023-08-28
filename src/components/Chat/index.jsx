@@ -66,6 +66,7 @@ export default function Chat() {
                     <form className="inputMessage" onSubmit={ e => handleSendMessage( e ) }>
                         <input
                             onChange={ e => setMessageToSend( e.target.value ) }
+                            autoFocus={ true }
                             value={ messageToSend }
                             type="text"
                             placeholder='Write a Nice Message Here!'
