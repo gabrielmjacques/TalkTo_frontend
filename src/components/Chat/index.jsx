@@ -17,24 +17,27 @@ export default function Chat() {
     function handleSendMessage( e ) {
         e.preventDefault()
 
-        const date = new Date()
+        if ( messageToSend.trim() != '' ) {
+            const date = new Date()
 
-        const messageObject = {
-            username: user.username,
-            message: messageToSend,
-            date: date.toLocaleDateString(),
-            time: date.toLocaleTimeString()
+            const messageObject = {
+                username: user.username,
+                message: messageToSend,
+                date: date.toLocaleDateString(),
+                time: date.toLocaleTimeString(),
+                milliseconds: date.getTime()
+            }
+
+            sendMessage( messageObject )
+
+            setMessageToSend( '' )
         }
-
-        sendMessage( messageObject )
-
-        setMessageToSend( '' )
     }
 
     useEffect( () => {
         socket.on( 'receiveMessage', ( receive ) => {
             const messageObj = receive.messageObj
-            const messageId = `${ receive.userId }/${ messageObj.date }/${ messageObj.time }`
+            const messageId = `${ receive.userId }/${ messageObj.milliseconds }`
 
             setMessages( ( prevMessages ) => [
                 ...prevMessages,
