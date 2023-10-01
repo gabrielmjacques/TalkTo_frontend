@@ -1,15 +1,16 @@
-import './styles.css'
-import { UserOutlined } from '@ant-design/icons'
-import { Avatar } from 'antd'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../redux/userSlice'
+import './styles.scss';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/userSlice';
+import variables from "../../scss/variables.scss";
 
 export default function Message( { sender, message } ) {
 
-    const user = useSelector( selectUser )
+    const user = useSelector( selectUser );
 
     function isMyMessage() {
-        return sender === user.username
+        return sender === user.username;
     }
 
     return (
@@ -25,8 +26,7 @@ export default function Message( { sender, message } ) {
             </div>
 
             <div
-                className="message"
-                style={ { backgroundColor: isMyMessage() ? 'var(--primary)' : 'var(--secondary)' } }
+                className={ `message ${ isMyMessage() ? 'myMessage' : 'otherMessage' }` }
             >
                 <div
                     style={ { display: isMyMessage() ? 'none' : 'block' } }
@@ -40,5 +40,5 @@ export default function Message( { sender, message } ) {
                 </div>
             </div>
         </div >
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.scss';
 
 import { Button, Dropdown } from 'antd';
 import { CaretDownFilled } from '@ant-design/icons';

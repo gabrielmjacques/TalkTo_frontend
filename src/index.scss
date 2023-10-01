@@ -1,0 +1,36 @@
+@import "src/scss/variables.scss";
+
+* {
+  box-sizing: border-box;
+
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: $background;
+  color: white;
+}
+
+button,
+input {
+  border: none;
+  outline: none;
+  font-weight: bold;
+
+  transition-duration: 0.3s;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button * {
+  font-weight: bold;
+}
+
+button:hover {
+  filter: brightness(0.8);
+}

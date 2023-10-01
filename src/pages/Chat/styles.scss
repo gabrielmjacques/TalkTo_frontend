@@ -1,0 +1,105 @@
+@import "src/scss/variables.scss";
+
+.chatContainer {
+    margin: auto;
+
+    padding: 10px;
+    max-width: 1300px;
+}
+
+.chat {
+    background-color: $background-enf1;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+
+    width: 100%;
+    border-radius: 20px;
+
+    height: calc(100vh - 70px);
+}
+
+.chatHeader {
+    background-color: $background-enf2;
+    text-align: center;
+
+    font-size: 0.8rem;
+    padding: 7px 15px;
+}
+
+.chatMessages {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    height: calc(100dvh - 170px);
+    gap: 20px;
+    padding: 20px;
+
+    &::-webkit-scrollbar {
+        background-color: $background-enf2;
+
+        width: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $primary;
+    }
+}
+
+.inputMessage {
+    background-color: $background-enf2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 50px;
+
+    * {
+        background-color: transparent;
+        color: white;
+
+        font-size: 1.1rem;
+    }
+
+    &:has(input:focus) {
+        transition-duration: 1s;
+
+        box-shadow: 0 0 20px $primary;
+    }
+
+    &:not(:has(input:focus)) {
+        transition-duration: 1s;
+
+        box-shadow: 0 0 10px $background-enf2;
+    }
+
+    input {
+        width: 100%;
+        padding: 7px 30px;
+
+        &:focus {
+            background-color: $background-enf2;
+        }
+    }
+
+    .sendButton {
+        background-color: $primary;
+
+        height: 100%;
+    }
+}
+
+@media (max-width: 426px) {
+    .inputMessage input {
+        padding: 7px 10px;
+        font-size: 0.9rem;
+    }
+
+    .inputMessage button * {
+        max-width: 50px;
+        font-size: 0.9rem;
+    }
+}

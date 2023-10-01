@@ -1,6 +1,6 @@
-import './App.css';
+import './App.scss';
 import Chat from './pages/Chat';
-import Login from './pages/Login';
+import Rooms from './pages/Rooms';
 import NavBar from './components/NavBar';
 
 import { useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ function App() {
       <NavBar />
 
       <Routes>
-        <Route path='/' element={ <Login /> } />
+        <Route path='/' element={ <Rooms /> } />
         <Route path='/chat' element={ <Chat /> } />
       </Routes>
     </>

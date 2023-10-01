@@ -1,5 +1,7 @@
+@import "src/scss/variables.scss";
+
 nav {
-    background-color: var(--background-enf1);
+    background-color: $background-enf1;
     color: white;
     display: flex;
     justify-content: space-between;
@@ -10,7 +12,7 @@ nav {
 }
 
 nav h1 {
-    background-color: var(--primary);
+    background-color: $primary;
 
     font-size: 1.2rem;
     text-shadow: -1px 1px 1px #00000097;

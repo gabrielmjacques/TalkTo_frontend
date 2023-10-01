@@ -1,4 +1,4 @@
-import './styles.css';
+import './styles.scss';
 
 import Message from "../../components/Message";
 import { Button } from 'antd';
@@ -38,27 +38,20 @@ export default function Chat() {
     }
 
     useEffect( () => {
-        if ( user.username ) {
-            // If user is logged in, listen to messages
-            socket.on( 'receiveMessage', ( receive ) => {
-                const messageObj = receive.messageObj;
-                const messageId = `${ receive.userId }/${ messageObj.milliseconds }`;
+        // If user is logged in, listen to messages
+        socket.on( 'receiveMessage', ( receive ) => {
+            const messageObj = receive.messageObj;
+            const messageId = `${ receive.userId }/${ messageObj.milliseconds }`;
 
-                setMessages( ( prevMessages ) => [
-                    ...prevMessages,
-                    <Message key={ messageId } sender={ messageObj.username } message={ messageObj.message } />
-                ] );
-            } );
+            setMessages( ( prevMessages ) => [
+                ...prevMessages,
+                <Message key={ messageId } sender={ messageObj.username } message={ messageObj.message } />
+            ] );
+        } );
 
-            return () => {
-                socket.off( 'receiveMessage' );
-            };
-
-        } else {
-            // If user is not logged in, redirect to login page
-            navigate( '/' );
-            messageError( 'You are not logged in! Please log in to access the chat!' );
-        }
+        return () => {
+            socket.off( 'receiveMessage' );
+        };
     }, [] );
 
     return (
@@ -86,7 +79,7 @@ export default function Chat() {
                         <Button
                             type="primary"
                             htmlType='submit'
-                            style={ { backgroundColor: 'var(--primary', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' } }
+                            className='sendButton'
 
                         >Send
                         </Button>
