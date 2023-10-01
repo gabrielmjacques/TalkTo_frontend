@@ -17,34 +17,12 @@ export default function Login() {
     const [ loading, setLoading ] = useState( false );
     const [ username, setUsername ] = useState( '' );
 
-    function dispatchUsername() {
-        let trys = 0;
-
-        function verifySocket() {
-            if ( trys < 5 ) {
-                if ( getStatus() ) {
-                    dispatch( SET_USERNAME( username ) );
-
-                } else {
-                    trys++;
-                    setTimeout( verifySocket, trys * 500 );
-                }
-
-            } else {
-                messageWarning( 'Error to connect' );
-            }
-        }
-
-        verifySocket();
-        setLoading( false );
-    }
-
     async function handleLogin( e ) {
         e.preventDefault();
 
-        const usernameRegex = /^(?![0-9]{5,20}$)[0-9a-zA-Z]{5,20}$/;
-
         setLoading( true );
+
+        const usernameRegex = /^(?![0-9]{5,20}$)[0-9a-zA-Z]{5,20}$/;
         const isValidUsername = usernameRegex.test( username );
 
         if ( !isValidUsername ) {
@@ -56,7 +34,7 @@ export default function Login() {
         const connect = await connectSocker( username );
 
         if ( !connect.error ) {
-            dispatchUsername();
+            dispatch( SET_USERNAME( username ) );
             navigate( '/chat' );
 
         } else {
