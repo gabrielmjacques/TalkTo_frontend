@@ -1,23 +1,26 @@
-import './styles.css'
+import './styles.css';
 
-import { Button, Dropdown } from 'antd'
-import { CaretDownFilled } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { LOGOUT } from '../../redux/userSlice'
-import { disconnectSocket } from '../../services/socketService'
+import { Button, Dropdown } from 'antd';
+import { CaretDownFilled } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { LOGOUT } from '../../redux/userSlice';
+import { disconnectSocket } from '../../services/socketService';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
+    const navigate = useNavigate();
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const [ loginState, setLoginState ] = useState( <small>Not Logged In</small> )
+    const [ loginState, setLoginState ] = useState( <small>Not Logged In</small> );
 
-    const { username } = useSelector( state => state.user )
+    const { username } = useSelector( state => state.user );
 
     function handleLogout() {
-        dispatch( LOGOUT() )
-        disconnectSocket()
+        dispatch( LOGOUT() );
+        disconnectSocket();
+        navigate( '/' );
     }
 
     const items = [
@@ -25,7 +28,7 @@ export default function Login() {
             label: <Button onClick={ () => handleLogout() } type='text' block>Logout</Button>,
             key: '0',
         },
-    ]
+    ];
 
     useEffect( () => {
         if ( username ) {
@@ -33,12 +36,12 @@ export default function Login() {
                 <Dropdown menu={ { items } } placement="bottomRight" trigger={ [ 'click' ] } arrow>
                     <Button type='primary' style={ { backgroundColor: 'transparent' } }>{ username } <CaretDownFilled /></Button>
                 </Dropdown>
-            )
+            );
 
         } else {
-            setLoginState( <small>Not Logged In</small> )
+            setLoginState( <small>Not Logged In</small> );
         }
-    }, [ username ] )
+    }, [ username ] );
 
     return (
         <nav>
@@ -54,5 +57,5 @@ export default function Login() {
                 </h4>
             </div>
         </nav>
-    )
+    );
 }

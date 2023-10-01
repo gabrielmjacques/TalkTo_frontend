@@ -1,24 +1,25 @@
-import { Button, message } from 'antd'
-import { useEffect, useState } from 'react'
-import Message from '../Message'
-import './styles.css'
-import { sendMessage } from '../../services/socketService'
-import { useSelector } from 'react-redux'
-import { selectUser } from '../../redux/userSlice'
-import { socket } from '../../services/socketService'
+import './styles.css';
+
+import Message from "../../components/Message";
+import { Button, message } from 'antd';
+import { useEffect, useState } from 'react';
+import { sendMessage } from '../../services/socketService';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/userSlice';
+import { socket } from '../../services/socketService';
 
 export default function Chat() {
 
-    const user = useSelector( selectUser )
+    const user = useSelector( selectUser );
 
-    const [ messageToSend, setMessageToSend ] = useState( '' )
-    const [ messages, setMessages ] = useState( [] )
+    const [ messageToSend, setMessageToSend ] = useState( '' );
+    const [ messages, setMessages ] = useState( [] );
 
     function handleSendMessage( e ) {
-        e.preventDefault()
+        e.preventDefault();
 
         if ( messageToSend.trim() != '' ) {
-            const date = new Date()
+            const date = new Date();
 
             const messageObject = {
                 username: user.username,
@@ -26,23 +27,23 @@ export default function Chat() {
                 date: date.toLocaleDateString(),
                 time: date.toLocaleTimeString(),
                 milliseconds: date.getTime()
-            }
+            };
 
-            sendMessage( messageObject )
+            sendMessage( messageObject );
 
-            setMessageToSend( '' )
+            setMessageToSend( '' );
         }
     }
 
     useEffect( () => {
         socket.on( 'receiveMessage', ( receive ) => {
-            const messageObj = receive.messageObj
-            const messageId = `${ receive.userId }/${ messageObj.milliseconds }`
+            const messageObj = receive.messageObj;
+            const messageId = `${ receive.userId }/${ messageObj.milliseconds }`;
 
             setMessages( ( prevMessages ) => [
                 ...prevMessages,
                 <Message key={ messageId } sender={ messageObj.username } message={ messageObj.message } />
-            ] )
+            ] );
         } );
 
         return () => {
@@ -84,5 +85,5 @@ export default function Chat() {
 
             </div>
         </div>
-    )
+    );
 }

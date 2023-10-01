@@ -1,22 +1,26 @@
-import './App.css'
-import Chat from './components/Chat'
-import Login from './components/Login'
-import NavBar from './components/NavBar'
+import './App.css';
+import Chat from './pages/Chat';
+import Login from './pages/Login';
+import NavBar from './components/NavBar';
 
-import { useSelector } from 'react-redux'
-import { selectUser } from './redux/userSlice'
+import { useSelector } from 'react-redux';
+import { selectUser } from './redux/userSlice';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
 
-  const user = useSelector( selectUser )
+  const user = useSelector( selectUser );
 
   return (
     <>
       <NavBar />
 
-      { user.isLogged ? < Chat /> : <Login /> }
+      <Routes>
+        <Route path='/' element={ <Login /> } />
+        <Route path='/chat' element={ <Chat /> } />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

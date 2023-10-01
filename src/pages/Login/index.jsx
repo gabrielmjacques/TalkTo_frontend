@@ -1,63 +1,67 @@
-import { UserOutlined } from '@ant-design/icons'
-import { Button, Card, Input, Space } from 'antd'
-import './styles.css'
+import { UserOutlined } from '@ant-design/icons';
+import { Button, Card, Input, Space } from 'antd';
+import './styles.css';
 
-import { useState } from 'react'
-import { connectSocker, getStatus } from '../../services/socketService'
+import { useState } from 'react';
+import { connectSocker, getStatus } from '../../services/socketService';
 
-import { messageWarning } from '../../utils/antMessage'
-import { useDispatch } from 'react-redux'
-import { SET_USERNAME } from '../../redux/userSlice'
+import { messageWarning } from '../../utils/antMessage';
+import { useDispatch } from 'react-redux';
+import { SET_USERNAME } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const [ loading, setLoading ] = useState( false )
-    const [ username, setUsername ] = useState( '' )
+    const [ loading, setLoading ] = useState( false );
+    const [ username, setUsername ] = useState( '' );
 
     function dispatchUsername() {
-        let trys = 0
+        let trys = 0;
 
         function verifySocket() {
             if ( trys < 5 ) {
                 if ( getStatus() ) {
-                    dispatch( SET_USERNAME( username ) )
+                    dispatch( SET_USERNAME( username ) );
 
                 } else {
-                    trys++
+                    trys++;
                     setTimeout( verifySocket, trys * 500 );
                 }
 
             } else {
-                messageWarning( 'Error to connect' )
+                messageWarning( 'Error to connect' );
             }
         }
 
-        verifySocket()
-        setLoading( false )
+        verifySocket();
+        setLoading( false );
     }
 
     async function handleLogin( e ) {
-        e.preventDefault()
+        e.preventDefault();
 
-        const usernameRegex = /^(?![0-9]{5,20}$)[0-9a-zA-Z]{5,20}$/
+        const usernameRegex = /^(?![0-9]{5,20}$)[0-9a-zA-Z]{5,20}$/;
 
-        setLoading( true )
+        setLoading( true );
         const isValidUsername = usernameRegex.test( username );
 
         if ( !isValidUsername ) {
-            messageWarning( 'Invalid Username' )
-            setLoading( false )
-            return
+            messageWarning( 'Invalid Username' );
+            setLoading( false );
+            return;
         }
 
-        const connect = await connectSocker( username )
+        const connect = await connectSocker( username );
 
         if ( !connect.error ) {
-            dispatchUsername()
+            dispatchUsername();
+            navigate( '/chat' );
+
         } else {
             setTimeout( () => {
-                setLoading( false )
+                setLoading( false );
             }, 1000 );
         }
     }
@@ -86,5 +90,5 @@ export default function Login() {
             </Card>
 
         </form>
-    )
+    );
 }
