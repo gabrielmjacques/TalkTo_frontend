@@ -105,6 +105,7 @@ export default function Rooms() {
                 className='loginModal'
                 title={ selectedRoom }
                 open={ modalConfig.open }
+                onCancel={ () => setModalConfig({ ...modalConfig, open: false }) }
                 footer={ false }
             >
                 <Form
