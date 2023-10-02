@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { IMessageModel } from '../../Interfaces/IMessageModel';
 import Message from "../../components/Message";
 import { selectUser } from '../../redux/userSlice';
-import { sendMessage, socket } from '../../services/socketService';
+import { socket } from '../../services/socketConnection';
 
 export default function Chat() {
     const navigate = useNavigate();
-    const user = useSelector(selectUser);
+    const user: { username: string; } = useSelector(selectUser);
 
     const [messageToSend, setMessageToSend] = useState('');
-    const [messages, setMessages] = useState<any>();
+    const [messages, setMessages] = useState<any>([]);
 
     function handleSendMessage(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -25,7 +25,7 @@ export default function Chat() {
             const messageObject: IMessageModel = {
                 user: {
                     id: socket.id,
-                    name: "Cleber"
+                    name: user.username
                 },
                 message: messageToSend,
                 date: date.toLocaleDateString(),
@@ -33,13 +33,19 @@ export default function Chat() {
                 milliseconds: date.getTime()
             };
 
-            sendMessage(messageObject);
+            socket.emit('sendMessage', messageObject);
 
             setMessageToSend('');
         }
     }
 
     useEffect(() => {
+        // If user is not logged in, redirect to login page
+        if (user.username == null) {
+            navigate('/');
+            return;
+        }
+
         // If user is logged in, listen to messages
         socket.on('receiveMessage', (receive) => {
             console.log(receive);

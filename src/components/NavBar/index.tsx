@@ -5,7 +5,7 @@ import { CaretDownFilled } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { LOGOUT } from '../../redux/userSlice';
-import { disconnectSocket } from '../../services/socketService';
+import { disconnectSocket } from '../../services/socketConnection';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
