@@ -3,7 +3,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
-import variables from "../../scss/variables.scss";
 
 export default function Message( { sender, message } ) {
 

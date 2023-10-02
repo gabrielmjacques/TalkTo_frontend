@@ -1,18 +1,129 @@
 @import "src/scss/variables.scss";
 
-.roomsContainer {
+.roomsPage {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
-    .rooms {
+    .roomsContainer {
         background-color: $background-enf2;
+        display: flex;
+        flex-direction: column;
 
         width: 100%;
-        max-width: 700px;
-        margin-top: 50px;
-        padding: 50px;
+        max-width: 1000px;
+        margin-top: 30px;
         border-radius: 20px;
+        padding: 10px;
+
+        h2 {
+            text-align: center;
+
+            padding-top: 10px;
+        }
+
+        hr {
+            margin: 10px 0;
+
+            border: 2px solid #ffffff23;
+        }
+
+        .rooms {
+            background-color: $background-enf1;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-y: scroll;
+
+            height: 450px;
+            margin: 10px;
+            gap: 20px;
+            border-radius: 20px;
+            padding: 20px;
+
+            &::-webkit-scrollbar {
+                width: 3px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background-color: $primary;
+
+                border-radius: 20px;
+            }
+
+            .roomCard {
+                background-color: $background-enf3;
+                display: flex;
+                justify-content: space-between;
+                align-items: end;
+                cursor: pointer;
+
+                font-size: 0.9rem;
+                padding: 13px 20px;
+                border-radius: 20px;
+                transition-duration: 0.3s;
+
+                box-shadow: 0 3px #00000087;
+
+                &:hover {
+                    box-shadow: 0 6px 3px #0000006d;
+
+                    filter: brightness(1.1);
+                    transform: translateY(-3px) scale(1.01);
+                }
+
+                &:active {
+                    box-shadow: 0 0px 3px #0000006d;
+
+                    transform: translateY(2px) scale(0.99);
+                }
+
+                .texts {
+                    max-width: 80%;
+
+                    p {
+                        font-weight: bold;
+
+                        opacity: 0.5;
+                        padding-left: 10px;
+                    }
+                }
+
+                .usersCount {
+                    font-weight: bold;
+
+                    font-size: 1rem;
+                }
+
+                .joinButton {
+                    background-color: $secondary;
+                    color: #fff;
+                    border: none;
+
+                    border-radius: 0 0 20px 20px;
+
+                    box-shadow: 0 -3px 10px $secondary;
+                }
+            }
+        }
+
+        .createRoom {
+            display: flex;
+            justify-content: center;
+
+            button {
+                background-color: $primary;
+
+                flex-grow: 0.9;
+                transition-duration: 0.3s;
+
+                text-shadow: 0 2px 2px #000000be;
+
+                &:hover {
+                    background-color: $primary-hover;
+                }
+            }
+        }
     }
 }
