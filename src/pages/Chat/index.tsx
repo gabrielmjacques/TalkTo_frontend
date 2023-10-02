@@ -1,29 +1,28 @@
 import './styles.scss';
 
-import Message from "../../components/Message";
 import { Button } from 'antd';
-import { useEffect, useState } from 'react';
-import { connectSocket, sendMessage } from '../../services/socketService';
+import { FormEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../../redux/userSlice';
-import { socket } from '../../services/socketService';
 import { useNavigate } from 'react-router-dom';
-import { messageError } from "../../utils/antMessage";
+import { IMessageModel } from '../../Interfaces/IMessageModel';
+import Message from "../../components/Message";
+import { selectUser } from '../../redux/userSlice';
+import { sendMessage, socket } from '../../services/socketService';
 
 export default function Chat() {
     const navigate = useNavigate();
-    const user = useSelector( selectUser );
+    const user = useSelector(selectUser);
 
-    const [ messageToSend, setMessageToSend ] = useState( '' );
-    const [ messages, setMessages ] = useState( [] );
+    const [messageToSend, setMessageToSend] = useState('');
+    const [messages, setMessages] = useState<any>();
 
-    function handleSendMessage( e ) {
+    function handleSendMessage(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
-        if ( messageToSend.trim() != '' ) {
+        if (messageToSend.trim() != '') {
             const date = new Date();
 
-            const messageObject = {
+            const messageObject: IMessageModel = {
                 user: {
                     id: socket.id,
                     name: "Cleber"
@@ -34,29 +33,29 @@ export default function Chat() {
                 milliseconds: date.getTime()
             };
 
-            sendMessage( messageObject );
+            sendMessage(messageObject);
 
-            setMessageToSend( '' );
+            setMessageToSend('');
         }
     }
 
-    useEffect( () => {
+    useEffect(() => {
         // If user is logged in, listen to messages
-        socket.on( 'receiveMessage', ( receive ) => {
-            console.log( receive );
+        socket.on('receiveMessage', (receive) => {
+            console.log(receive);
 
-            const messageId = `${ receive.id }/${ receive.milliseconds }`;
+            const messageId = `${receive.id}/${receive.milliseconds}`;
 
-            setMessages( ( prevMessages ) => [
+            setMessages((prevMessages: any) => [
                 ...prevMessages,
                 <Message key={ messageId } sender={ receive.user.name } message={ receive.message } />
-            ] );
-        } );
+            ]);
+        });
 
         return () => {
-            socket.off( 'receiveMessage' );
+            socket.off('receiveMessage');
         };
-    }, [] );
+    }, []);
 
     return (
         <div className="chatContainer">
@@ -71,9 +70,9 @@ export default function Chat() {
                         { messages }
                     </div>
 
-                    <form className="inputMessage" onSubmit={ e => handleSendMessage( e ) }>
+                    <form className="inputMessage" onSubmit={ e => handleSendMessage(e) }>
                         <input
-                            onChange={ e => setMessageToSend( e.target.value ) }
+                            onChange={ e => setMessageToSend(e.target.value) }
                             autoFocus={ true }
                             value={ messageToSend }
                             type="text"

@@ -1,12 +1,18 @@
 import './styles.scss';
+
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
 
-export default function Message( { sender, message } ) {
+type MessageProps = {
+    sender: string;
+    message: string;
+};
 
-    const user = useSelector( selectUser );
+export default function Message({ sender, message }: MessageProps) {
+
+    const user = useSelector(selectUser);
 
     function isMyMessage() {
         return sender === user.username;
@@ -25,7 +31,7 @@ export default function Message( { sender, message } ) {
             </div>
 
             <div
-                className={ `message ${ isMyMessage() ? 'myMessage' : 'otherMessage' }` }
+                className={ `message ${isMyMessage() ? 'myMessage' : 'otherMessage'}` }
             >
                 <div
                     style={ { display: isMyMessage() ? 'none' : 'block' } }

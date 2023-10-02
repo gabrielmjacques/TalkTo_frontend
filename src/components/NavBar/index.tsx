@@ -13,14 +13,14 @@ export default function Login() {
 
     const dispatch = useDispatch();
 
-    const [ loginState, setLoginState ] = useState( <small>Not Logged In</small> );
+    const [loginState, setLoginState] = useState(<small>Not Logged In</small>);
 
-    const { username } = useSelector( state => state.user );
+    const { username } = useSelector((state: { user: { username: string; }; }) => state.user);
 
     function handleLogout() {
-        dispatch( LOGOUT() );
+        dispatch(LOGOUT());
         disconnectSocket();
-        navigate( '/' );
+        navigate('/');
     }
 
     const items = [
@@ -30,18 +30,18 @@ export default function Login() {
         },
     ];
 
-    useEffect( () => {
-        if ( username ) {
+    useEffect(() => {
+        if (username) {
             setLoginState(
-                <Dropdown menu={ { items } } placement="bottomRight" trigger={ [ 'click' ] } arrow>
+                <Dropdown menu={ { items } } placement="bottomRight" trigger={ ['click'] } arrow>
                     <Button type='primary' style={ { backgroundColor: 'transparent' } }>{ username } <CaretDownFilled /></Button>
                 </Dropdown>
             );
 
         } else {
-            setLoginState( <small>Not Logged In</small> );
+            setLoginState(<small>Not Logged In</small>);
         }
-    }, [ username ] );
+    }, [username]);
 
     return (
         <nav>

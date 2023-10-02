@@ -17,8 +17,8 @@ export default function Rooms() {
                     <div className="roomCard">
 
                         <span className='texts'>
-                            <h3>Test Room</h3>
-                            <p>Room 1 Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequunea inventore.</p>
+                            <h3>General 1</h3>
+                            <p>TalkTo Official</p>
                         </span>
 
                         <span className='usersCount'>12 <UserOutlined /></span>
