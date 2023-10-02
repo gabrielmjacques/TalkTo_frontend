@@ -3,7 +3,7 @@ import './styles.scss';
 import Message from "../../components/Message";
 import { Button } from 'antd';
 import { useEffect, useState } from 'react';
-import { sendMessage } from '../../services/socketService';
+import { connectSocket, sendMessage } from '../../services/socketService';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
 import { socket } from '../../services/socketService';
@@ -24,7 +24,10 @@ export default function Chat() {
             const date = new Date();
 
             const messageObject = {
-                username: user.username,
+                user: {
+                    id: socket.id,
+                    name: "Cleber"
+                },
                 message: messageToSend,
                 date: date.toLocaleDateString(),
                 time: date.toLocaleTimeString(),
@@ -40,12 +43,13 @@ export default function Chat() {
     useEffect( () => {
         // If user is logged in, listen to messages
         socket.on( 'receiveMessage', ( receive ) => {
-            const messageObj = receive.messageObj;
-            const messageId = `${ receive.userId }/${ messageObj.milliseconds }`;
+            console.log( receive );
+
+            const messageId = `${ receive.id }/${ receive.milliseconds }`;
 
             setMessages( ( prevMessages ) => [
                 ...prevMessages,
-                <Message key={ messageId } sender={ messageObj.username } message={ messageObj.message } />
+                <Message key={ messageId } sender={ receive.user.name } message={ receive.message } />
             ] );
         } );
 

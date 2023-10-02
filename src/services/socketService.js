@@ -3,7 +3,7 @@ import { messageError, messageSuccess } from '../utils/antMessage';
 
 export const socket = io( 'http://localhost:3000', { autoConnect: false } );
 
-export const connectSocker = async ( username ) => {
+export const connectSocket = async ( username ) => {
     // Verify if socket is already connected
     if ( socket.connected ) return false;
 
