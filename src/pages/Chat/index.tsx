@@ -8,6 +8,7 @@ import { IMessageModel } from '../../Interfaces/IMessageModel';
 import Message from "../../components/Message";
 import { selectUser } from '../../redux/userSlice';
 import { socket } from '../../services/socketConnection';
+import MessageModel from '../../Models/MessageModel';
 
 export default function Chat() {
     const navigate = useNavigate();
@@ -22,18 +23,15 @@ export default function Chat() {
         if (messageToSend.trim() != '') {
             const date = new Date();
 
-            const messageObject: IMessageModel = {
-                user: {
-                    id: socket.id,
-                    name: user.username
-                },
-                message: messageToSend,
-                date: date.toLocaleDateString(),
-                time: date.toLocaleTimeString(),
-                milliseconds: date.getTime()
-            };
+            const message = new MessageModel(
+                { id: socket.id, name: user.username },
+                messageToSend,
+                date.toLocaleDateString(),
+                date.toLocaleTimeString(),
+                date.getTime()
+            );
 
-            socket.emit('sendMessage', messageObject);
+            socket.emit('sendMessage', message);
 
             setMessageToSend('');
         }
@@ -48,8 +46,6 @@ export default function Chat() {
 
         // If user is logged in, listen to messages
         socket.on('receiveMessage', (receive) => {
-            console.log(receive);
-
             const messageId = `${receive.id}/${receive.milliseconds}`;
 
             setMessages((prevMessages: any) => [
