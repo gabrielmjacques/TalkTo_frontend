@@ -3,20 +3,27 @@ import Chat from './pages/Chat';
 import Rooms from './pages/Rooms';
 import NavBar from './components/NavBar';
 
-import { useSelector } from 'react-redux';
-import { selectUser } from './redux/userSlice';
 import { Route, Routes } from 'react-router-dom';
 
+import { useState } from "react";
+import { ConfigProvider, theme } from "antd";
+
 function App() {
+  const { defaultAlgorithm, darkAlgorithm } = theme;
 
   return (
     <>
-      <NavBar />
+      <ConfigProvider
+        theme={ { algorithm: darkAlgorithm } }
+      >
 
-      <Routes>
-        <Route path='/' element={ <Rooms /> } />
-        <Route path='/chat' element={ <Chat /> } />
-      </Routes>
+        <NavBar />
+        <Routes>
+          <Route path='/' element={ <Rooms /> } />
+          <Route path='/chat' element={ <Chat /> } />
+        </Routes>
+
+      </ConfigProvider >
     </>
   );
 }

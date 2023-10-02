@@ -1,25 +1,24 @@
 import io from 'socket.io-client';
-import { messageError, messageSuccess } from '../utils/antMessage';
 
 export const socket = io('http://localhost:3000', { autoConnect: false });
 
-export const connectSocket = async () => {
+export async function connectSocket(): Promise<{ error: string; }> {
+    let message = { error: "" };
+
     // Verify if socket is already connected
-    if (socket.connected) return false;
+    if (socket.connected) return { error: "" };
 
     socket.connect();
 
     socket.on('connect_error', (error) => {
-        messageError('Error connecting to the server. Trying to restart in 3 seconds...', 3);
-
-        setTimeout(() => {
-            window.location.reload();
-        }, 3000);
+        message = { error: 'Error connecting to the server. Trying to restart in 3 seconds...' };
     });
 
     socket.on('connect', () => {
-        messageSuccess('Welcome');
+        message = { error: "" };
     });
+
+    return message;
 };
 
 export const getStatus = () => {

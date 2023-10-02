@@ -127,3 +127,21 @@
         }
     }
 }
+
+.loginModal {
+    form {
+        label {
+            font-weight: bold;
+        }
+
+        .formButtons {
+            display: flex;
+
+            gap: 10px;
+
+            * {
+                flex-grow: 1;
+            }
+        }
+    }
+}

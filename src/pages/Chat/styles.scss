@@ -89,6 +89,10 @@
         background-color: $primary;
 
         height: 100%;
+
+        &:hover {
+            background-color: $primary-hover;
+        }
     }
 }
 

@@ -1,5 +1,4 @@
 import './styles.scss';
-
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux';

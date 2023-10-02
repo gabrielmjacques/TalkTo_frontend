@@ -1,11 +1,10 @@
 import './styles.scss';
 
 import { UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { connectSocket, socket } from '../../services/socketConnection';
 import { RoomModel } from '../../Models/RoomModel';
-import { messageError, messageSuccess } from '../../utils/antMessage';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { SET_USERNAME } from '../../redux/userSlice';
@@ -20,6 +19,7 @@ export default function Rooms() {
     // Hooks
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
 
     // Function to handle the join room button
     function handleJoinRoom(room: string) {
@@ -36,11 +36,10 @@ export default function Rooms() {
             room: selectedRoom
         }, (response: { error: string; }) => {
             if (response.error) {
-                messageError(response.error);
+                messageApi.error(response.error);
                 setModalConfig({ ...modalConfig, okLoading: false });
 
             } else {
-                messageSuccess("You have joined the room successfully!");
                 setModalConfig({ ...modalConfig, okLoading: false });
                 navigate(`/chat/`);
                 dispatch(SET_USERNAME(username));
@@ -49,10 +48,15 @@ export default function Rooms() {
     }
 
     useEffect(() => {
-        connectSocket();
-    });
+        connectSocket().then((response: { error: string; }) => {
+            if (response.error !== "") {
+                messageApi.error(response!.error);
 
-    useEffect(() => {
+            } else {
+                messageApi.open({ content: "Welcome" });
+            }
+        });
+
         socket.on("rooms", (rooms: RoomModel[]) => {
             setRooms(rooms);
         });
@@ -64,6 +68,8 @@ export default function Rooms() {
 
     return (
         <>
+            { contextHolder }
+
             <div className="roomsPage">
                 <div className="roomsContainer">
                     <h2>Select Room</h2>
@@ -101,24 +107,22 @@ export default function Rooms() {
                 open={ modalConfig.open }
                 footer={ false }
             >
-                <h4>
-                    Enter a username to join { selectedRoom }
-                </h4>
-
                 <Form
                     onFinish={ handleJoinRoomSubmit }
+                    layout='vertical'
                 >
-                    <Form.Item>
-                        <Input placeholder="Username" onChange={ (e) => setUsername(e.target.value) } />
+                    <Form.Item label={ `Enter a username to join ${selectedRoom}` }>
+                        <Input size='large' placeholder="Username" onChange={ (e) => setUsername(e.target.value) } />
                     </Form.Item>
 
-                    <Form.Item>
-                        <Button type="primary" block onClick={ handleJoinRoomSubmit } loading={ modalConfig.okLoading }>Join Room</Button>
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button type="text" block onClick={ () => setModalConfig({ ...modalConfig, open: false }) }>Cancel</Button>
-                    </Form.Item>
+                    <div className="formButtons">
+                        <Form.Item>
+                            <Button type="primary" block onClick={ handleJoinRoomSubmit } loading={ modalConfig.okLoading }>Join Room</Button>
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="text" block onClick={ () => setModalConfig({ ...modalConfig, open: false }) }>Cancel</Button>
+                        </Form.Item>
+                    </div>
                 </Form>
 
             </Modal >
