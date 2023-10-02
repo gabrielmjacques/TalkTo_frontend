@@ -3,18 +3,14 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../redux/userSlice';
+import { IMessageModel } from '../../Interfaces/IMessageModel';
 
-type MessageProps = {
-    sender: string;
-    message: string;
-};
-
-export default function Message({ sender, message }: MessageProps) {
+export default function Message(props: IMessageModel) {
 
     const user = useSelector(selectUser);
 
     function isMyMessage() {
-        return sender === user.username;
+        return props.user.name === user.username;
     }
 
     return (
@@ -23,24 +19,27 @@ export default function Message({ sender, message }: MessageProps) {
             style={ {
                 justifyContent: isMyMessage() ? 'end' : 'start',
                 flexDirection: isMyMessage() ? 'row-reverse' : 'row',
-            } }
-        >
+            } }>
+
             <div className="avatar">
                 <Avatar size={ 40 } icon={ <UserOutlined /> } />
             </div>
 
             <div
-                className={ `message ${isMyMessage() ? 'myMessage' : 'otherMessage'}` }
-            >
+                className={ `message ${isMyMessage() ? 'myMessage' : 'otherMessage'}` }>
                 <div
                     style={ { display: isMyMessage() ? 'none' : 'block' } }
-                    className="messageHeader"
-                >
-                    <p>{ isMyMessage() ? 'Me' : sender }</p>
+                    className="messageHeader">
+
+                    <p>{ isMyMessage() ? 'Me' : props.user.name }</p>
                 </div>
 
                 <div className="messageBody">
-                    <p>{ message }</p>
+                    <p>{ props.message }</p>
+                </div>
+
+                <div className="messageFooter">
+                    <span>{ props.time.slice(0, 5) }</span>
                 </div>
             </div>
         </div >

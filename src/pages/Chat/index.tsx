@@ -9,6 +9,7 @@ import MessageModel from '../../Models/MessageModel';
 import Message from "../../components/Message";
 import { selectUser } from '../../redux/userSlice';
 import { socket } from '../../services/socketConnection';
+import { IMessageModel } from '../../Interfaces/IMessageModel';
 
 export default function Chat() {
     // States
@@ -66,12 +67,19 @@ export default function Chat() {
         });
 
         // If user is logged in, listen to messages
-        socket.on('receiveMessage', (receive) => {
-            const messageId = `${receive.id}/${receive.milliseconds}`;
+        socket.on('receiveMessage', (receive: IMessageModel) => {
+            const messageId = `${receive.message}/${receive.milliseconds}`;
 
             setMessages((prevMessages: any) => [
                 ...prevMessages,
-                <Message key={ messageId } sender={ receive.user.name } message={ receive.message } />
+                <Message
+                    key={ messageId }
+                    user={ receive.user }
+                    message={ receive.message }
+                    date={ receive.date }
+                    time={ receive.time }
+                    milliseconds={ receive.milliseconds }
+                />
             ]);
         });
 
