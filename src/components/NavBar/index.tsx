@@ -39,7 +39,7 @@ export default function Login() {
             );
 
         } else {
-            setLoginState(<small>Not Logged In</small>);
+            setLoginState(<small>Welcome</small>);
         }
     }, [username]);
 

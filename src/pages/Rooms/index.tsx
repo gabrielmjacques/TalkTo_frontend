@@ -47,19 +47,22 @@ export default function Rooms() {
         });
     }
 
+    // Function to get all rooms
+    const getRooms = () => {
+        socket.emit("rooms", (rooms: RoomModel[]) => {
+            setRooms(rooms);
+        });
+    };
+
     useEffect(() => {
         connectSocket().then((response: { error: string; }) => {
             if (response.error !== "") {
                 messageApi.error(response!.error);
 
-            } else {
-                messageApi.open({ content: "Welcome" });
             }
         });
 
-        socket.on("rooms", (rooms: RoomModel[]) => {
-            setRooms(rooms);
-        });
+        getRooms();
 
         return () => {
             socket.off("rooms");
@@ -72,9 +75,11 @@ export default function Rooms() {
 
             <div className="roomsPage">
                 <div className="roomsContainer">
-                    <h2>Select Room</h2>
 
-                    <hr />
+                    <div className="roomsHeader">
+                        <h2>Select Room</h2>
+                        <button className="reloadButton" onClick={ getRooms }>Reload</button>
+                    </div>
 
                     <div className="rooms">
 

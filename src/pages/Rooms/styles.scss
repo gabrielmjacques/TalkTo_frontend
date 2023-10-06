@@ -17,16 +17,30 @@
         border-radius: 20px;
         padding: 10px;
 
-        h2 {
-            text-align: center;
+        .roomsHeader {
+            position: relative;
 
-            padding-top: 10px;
-        }
+            h2 {
+                text-align: center;
 
-        hr {
-            margin: 10px 0;
+                padding: 10px;
+            }
 
-            border: 2px solid #ffffff23;
+            .reloadButton {
+                position: absolute;
+                background-color: transparent;
+                color: #fff;
+
+                right: 0;
+                top: 50%;
+                opacity: 0.3;
+
+                transform: translate(-50%, -25%);
+
+                &:hover {
+                    opacity: 1;
+                }
+            }
         }
 
         .rooms {
